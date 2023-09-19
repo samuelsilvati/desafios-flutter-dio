@@ -71,8 +71,39 @@ class _MyHomePageState extends State<MyHomePage> {
                   subtitle: Text("IMC: ${imcData.resultado}"),
                   trailing: TextButton(
                     onPressed: () {
-                      imcRepository.remover(imcData.id);
-                      setState(() {});
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext bc) {
+                            return AlertDialog(
+                              actionsAlignment: MainAxisAlignment.center,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              title: const Icon(
+                                Icons.warning,
+                                size: 32,
+                                color: Colors.redAccent,
+                              ),
+                              content: const Wrap(
+                                children: [
+                                  Text("Deseja realmente apagar o calculo?"),
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Não')),
+                                TextButton(
+                                    onPressed: () {
+                                      imcRepository.remover(imcData.id);
+                                      Navigator.pop(context);
+                                      setState(() {});
+                                    },
+                                    child: const Text('Sim'))
+                              ],
+                            );
+                          });
                     },
                     child: const Icon(Icons.delete),
                   ),
