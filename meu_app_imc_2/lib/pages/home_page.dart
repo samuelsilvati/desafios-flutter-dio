@@ -53,8 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Card(
                     child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  child: Text(
-                      "Clique no botão abaixo para adicionar um calculo de imc"),
+                  child: Text("Clique no botão abaixo para calcular o IMC"),
                 ))
               ],
             ),
@@ -67,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
               return Card(
                 child: ListTile(
                   title: Text(
-                      "Peso ${imcData.peso} Kg | Altura ${imcData.altura}"),
+                      "Peso ${imcData.peso}Kg | Altura ${imcData.altura}m"),
                   subtitle: Text("IMC: ${imcData.resultado}"),
                   trailing: TextButton(
                     onPressed: () {

@@ -58,8 +58,7 @@ class _MyHomePageHiveState extends State<MyHomePageHive> {
                 Card(
                     child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  child: Text(
-                      "Clique no botão abaixo para adicionar um calculo de imc"),
+                  child: Text("Clique no botão abaixo para calcular o IMC"),
                 ))
               ],
             ),
@@ -72,7 +71,7 @@ class _MyHomePageHiveState extends State<MyHomePageHive> {
               return Card(
                 child: ListTile(
                   title: Text(
-                      "Peso ${imcData.peso} Kg | Altura ${imcData.altura}"),
+                      "Peso ${imcData.peso}Kg | Altura ${imcData.altura}m"),
                   subtitle: Text("IMC: ${imcData.resultado}"),
                   trailing: TextButton(
                     onPressed: () {
