@@ -3,7 +3,6 @@ import 'package:viacep/models/cadastro_cep.dart';
 import 'package:viacep/repositories/cep_back4app_repository.dart';
 import 'package:viacep/screens/ceps.dart';
 import 'package:viacep/shared/widgets/flutter_toast.dart';
-// import 'package:viacep/screens/ceps.dart';
 
 class EditarCep extends StatefulWidget {
   final Results cepDetail;
