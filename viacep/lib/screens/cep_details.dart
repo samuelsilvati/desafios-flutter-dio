@@ -1,61 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:viacep/screens/editar_cep.dart';
+import 'package:viacep/models/cadastro_cep.dart';
 
-class CepView extends StatefulWidget {
-  const CepView({super.key});
+class CardDetailPage extends StatelessWidget {
+  final Results cepDetail;
+  const CardDetailPage({super.key, required this.cepDetail});
 
-  @override
-  State<CepView> createState() => _CepViewState();
-}
-
-class _CepViewState extends State<CepView> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Hero(
+      tag: cepDetail.objectId,
+      child: SafeArea(
         child: Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Cep"),
-      ),
-      floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.edit),
-          onPressed: () {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext bc) => const EditarCep()));
-          }),
-      body: Container(
-        padding: const EdgeInsets.all(16),
-        child: ListView(
-          children: const [
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text("Cep: 35850"),
+          // appBar: AppBar(),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(Icons.close)),
+                  ],
+                ),
+                Center(
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text("Cep: ${cepDetail.cep}"),
+                          Text("Logradouro: ${cepDetail.logradouro}"),
+                          Text("Complemento: ${cepDetail.complemento}"),
+                          Text("Bairro: ${cepDetail.bairro}"),
+                          Text("Localidade: ${cepDetail.localidade}"),
+                          Text("UF: ${cepDetail.uf}"),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text("Logradouro: A"),
-            ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text("Complemento: "),
-            ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text("Bairro: "),
-            ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text("Localidade: Congonahas do Norte"),
-            ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text("UF: MG"),
-            ),
-          ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }
