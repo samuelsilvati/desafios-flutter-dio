@@ -15,6 +15,16 @@ class CepBack4AppRepository {
     return CadastroCepModel.fromJson(response.data);
   }
 
+  Future<void> create(Results results) async {
+    try {
+      await _dio.post("/cep/${results.objectId}",
+          data: results.toJsonEndpoint());
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
   Future<void> edit(Results results) async {
     try {
       await _dio.put("/cep/${results.objectId}",

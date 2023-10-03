@@ -33,6 +33,9 @@ class Results {
   Results(this.objectId, this.cep, this.logradouro, this.complemento,
       this.bairro, this.localidade, this.uf, this.createdAt, this.updatedAt);
 
+  Results.create(this.cep, this.logradouro, this.complemento, this.bairro,
+      this.localidade, this.uf);
+
   Results.update(this.objectId, this.cep, this.logradouro, this.complemento,
       this.bairro, this.localidade, this.uf);
 
