@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:viacep/models/cadastro_cep.dart';
 import 'package:viacep/repositories/cep_back4app_repository.dart';
+import 'package:viacep/screens/ceps.dart';
 import 'package:viacep/shared/widgets/flutter_toast.dart';
 // import 'package:viacep/screens/ceps.dart';
 
@@ -9,10 +10,10 @@ class EditarCep extends StatefulWidget {
   const EditarCep({super.key, required this.cepDetail});
 
   @override
-  State<EditarCep> createState() => _CadastrarCepState();
+  State<EditarCep> createState() => _EditarCepState();
 }
 
-class _CadastrarCepState extends State<EditarCep> {
+class _EditarCepState extends State<EditarCep> {
   CepBack4AppRepository cepBack4AppRepository = CepBack4AppRepository();
   final TextEditingController cepController = TextEditingController();
   final TextEditingController logradouroController = TextEditingController();
@@ -122,6 +123,16 @@ class _CadastrarCepState extends State<EditarCep> {
                           bairroController.text,
                           localidadeController.text,
                           ufController.text));
+
+                      if (!context.mounted) return;
+
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const CepsCadastrados(),
+                        ),
+                      );
 
                       toast.success("Cep Editado");
                     } catch (e) {
