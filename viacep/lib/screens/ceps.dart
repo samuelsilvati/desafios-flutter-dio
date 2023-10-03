@@ -52,58 +52,57 @@ class _CepsCadastradosState extends State<CepsCadastrados> {
         padding: const EdgeInsets.all(16),
         child: loading
             ? const Center(heightFactor: 2, child: CircularProgressIndicator())
-            : Expanded(
-                child: ListView.builder(
-                    itemCount: _ceps.results.length,
-                    itemBuilder: (BuildContext bc, int index) {
-                      var cep = _ceps.results[index];
-                      return Column(
+            : ListView.builder(
+                itemCount: _ceps.results.length,
+                itemBuilder: (BuildContext bc, int index) {
+                  var cep = _ceps.results[index];
+                  return Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (BuildContext bc) =>
+                                            CardDetailPage(
+                                              cepDetail: cep,
+                                            )));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Text(cep.cep),
+                                  ],
+                                ),
+                              )),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              InkWell(
-                                  onTap: () {
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.delete)),
+                              IconButton(
+                                  onPressed: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (BuildContext bc) =>
-                                                CardDetailPage(
+                                                EditarCep(
                                                   cepDetail: cep,
                                                 )));
                                   },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        Text(cep.cep),
-                                      ],
-                                    ),
-                                  )),
-                              Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.delete)),
-                                  IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (BuildContext bc) =>
-                                                    EditarCep(
-                                                      cepDetail: cep,
-                                                    )));
-                                      },
-                                      icon: const Icon(Icons.edit)),
-                                ],
-                              )
+                                  icon: const Icon(Icons.edit)),
                             ],
-                          ),
-                          const Divider()
+                          )
                         ],
-                      );
-                    })),
+                      ),
+                      const Divider()
+                    ],
+                  );
+                }),
       ),
     ));
   }
