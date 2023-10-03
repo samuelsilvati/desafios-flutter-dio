@@ -20,7 +20,6 @@ class CepBack4AppRepository {
       await _dio.post("/cep/${results.objectId}",
           data: results.toJsonEndpoint());
     } catch (e) {
-      print(e);
       rethrow;
     }
   }
