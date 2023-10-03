@@ -3,6 +3,7 @@ import 'package:viacep/models/cadastro_cep.dart';
 
 class CepBack4AppRepository {
   final _dio = Dio();
+  var url = "/cep";
 
   CepBack4AppRepository() {
     _dio.options.headers["X-Parse-Application-Id"] = "";
@@ -10,14 +11,13 @@ class CepBack4AppRepository {
     _dio.options.baseUrl = "https://parseapi.back4app.com/classes";
   }
   Future<CadastroCepModel> get() async {
-    var url = "/cep";
     var response = await _dio.get(url);
     return CadastroCepModel.fromJson(response.data);
   }
 
   Future<void> create(Results results) async {
     try {
-      await _dio.post("/cep/${results.objectId}",
+      await _dio.post("$url/${results.objectId}",
           data: results.toJsonEndpoint());
     } catch (e) {
       rethrow;
@@ -26,7 +26,7 @@ class CepBack4AppRepository {
 
   Future<void> edit(Results results) async {
     try {
-      await _dio.put("/cep/${results.objectId}",
+      await _dio.put("$url/${results.objectId}",
           data: results.toJsonEndpoint());
     } catch (e) {
       rethrow;
@@ -35,7 +35,7 @@ class CepBack4AppRepository {
 
   Future<void> delete(String objectId) async {
     try {
-      await _dio.delete("/cep/$objectId");
+      await _dio.delete("$url/$objectId");
     } catch (e) {
       rethrow;
     }

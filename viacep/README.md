@@ -1,16 +1,29 @@
-# viacep
+# Consultar Cep
 
-A new Flutter project.
+App para consulta e criação de Ceps
 
-## Getting Started
+# Configurações
+Para rodar o projeto é necessário ter conta na Back4App e criar um App com as seguintes colunas:
+```json
+{
+    "cep": "",
+    "logradouro": "",
+    "complemento": "",
+    "bairro": "",
+    "localidade": "",
+    "uf": ""
+}
+```
+No arquivo lib/repositories/cep_back4app_repository,dart substitua as aspas pelas suas chaves do Back4App:
+```dart
+CepBack4AppRepository() {
+    _dio.options.headers["X-Parse-Application-Id"] = "";
+    _dio.options.headers["X-Parse-REST-API-Key"] = "";
+    _dio.options.baseUrl = "https://parseapi.back4app.com/classes";
+  }
+```
+Coloque o caminho correspondente do seu app na variável url:
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```dart
+var url = "/cep";
+```
