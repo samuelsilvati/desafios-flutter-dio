@@ -82,7 +82,41 @@ class _CepsCadastradosState extends State<CepsCadastrados> {
                           Row(
                             children: [
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext bc) {
+                                          return AlertDialog(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            title: const Icon(
+                                              Icons.warning,
+                                              size: 32,
+                                              color: Colors.redAccent,
+                                            ),
+                                            content: const Text(
+                                              "Deseja realmente Apagar o Cep?",
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('Não')),
+                                              TextButton(
+                                                  onPressed: () async {
+                                                    Navigator.pop(context);
+                                                    await cepBack4AppRepository
+                                                        .delete(cep.objectId);
+                                                    loadCeps();
+                                                  },
+                                                  child: const Text('Sim'))
+                                            ],
+                                          );
+                                        });
+                                  },
                                   icon: const Icon(Icons.delete)),
                               IconButton(
                                   onPressed: () {

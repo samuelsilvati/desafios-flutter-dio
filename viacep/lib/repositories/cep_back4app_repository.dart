@@ -23,4 +23,12 @@ class CepBack4AppRepository {
       rethrow;
     }
   }
+
+  Future<void> delete(String objectId) async {
+    try {
+      await _dio.delete("/cep/$objectId");
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
