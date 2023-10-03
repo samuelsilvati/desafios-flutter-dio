@@ -1,16 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:viacep/screens/ceps.dart';
+import 'package:viacep/models/cadastro_cep.dart';
+import 'package:viacep/repositories/cep_back4app_repository.dart';
+import 'package:viacep/shared/widgets/flutter_toast.dart';
+// import 'package:viacep/screens/ceps.dart';
 
 class EditarCep extends StatefulWidget {
-  const EditarCep({super.key});
+  final Results cepDetail;
+  const EditarCep({super.key, required this.cepDetail});
 
   @override
   State<EditarCep> createState() => _CadastrarCepState();
 }
 
 class _CadastrarCepState extends State<EditarCep> {
+  CepBack4AppRepository cepBack4AppRepository = CepBack4AppRepository();
+  final TextEditingController cepController = TextEditingController();
+  final TextEditingController logradouroController = TextEditingController();
+  final TextEditingController complementoController = TextEditingController();
+  final TextEditingController bairroController = TextEditingController();
+  final TextEditingController localidadeController = TextEditingController();
+  final TextEditingController ufController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    cepController.text = widget.cepDetail.cep;
+    logradouroController.text = widget.cepDetail.logradouro;
+    complementoController.text = widget.cepDetail.complemento;
+    bairroController.text = widget.cepDetail.bairro;
+    localidadeController.text = widget.cepDetail.localidade;
+    ufController.text = widget.cepDetail.uf;
+  }
+
   @override
   Widget build(BuildContext context) {
+    var objectId = widget.cepDetail.objectId;
+    var toast = FlutterToast();
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
@@ -21,60 +46,59 @@ class _CadastrarCepState extends State<EditarCep> {
         padding: const EdgeInsets.all(8),
         child: ListView(
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: TextField(
                 maxLength: 8,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     counterText: "",
                     border: OutlineInputBorder(),
-                    labelText: "Cep"),
-                // controller: nomeUsuarioController,
+                    labelText: "Cep *"),
+                controller: cepController,
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: TextField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: "Logradouro"),
-                // controller: nomeUsuarioController,
+                controller: logradouroController,
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: TextField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: "Complemento"),
-                // controller: nomeUsuarioController,
+                controller: complementoController,
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: TextField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: "Bairro"),
-                // controller: nomeUsuarioController,
+                controller: bairroController,
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), labelText: "Localidade"),
-                // controller: nomeUsuarioController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: "Localidade *"),
+                controller: localidadeController,
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: TextField(
                 maxLength: 2,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     counterText: "",
                     border: OutlineInputBorder(),
-                    labelText: "UF"),
-                // controller: nomeUsuarioController,
+                    labelText: "UF *"),
+                controller: ufController,
               ),
             ),
             Padding(
@@ -89,11 +113,20 @@ class _CadastrarCepState extends State<EditarCep> {
                         Theme.of(context).colorScheme.inversePrimary,
                       )),
                   onPressed: () async {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext bc) =>
-                                const CepsCadastrados()));
+                    try {
+                      await cepBack4AppRepository.edit(Results.update(
+                          objectId,
+                          cepController.text,
+                          logradouroController.text,
+                          complementoController.text,
+                          bairroController.text,
+                          localidadeController.text,
+                          ufController.text));
+
+                      toast.success("Cep Editado");
+                    } catch (e) {
+                      toast.error("Erro ao editar cep");
+                    }
                   },
                   child: const Text(
                     "Salvar",

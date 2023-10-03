@@ -33,6 +33,9 @@ class Results {
   Results(this.objectId, this.cep, this.logradouro, this.complemento,
       this.bairro, this.localidade, this.uf, this.createdAt, this.updatedAt);
 
+  Results.update(this.objectId, this.cep, this.logradouro, this.complemento,
+      this.bairro, this.localidade, this.uf);
+
   Results.fromJson(Map<String, dynamic> json) {
     objectId = json['objectId'];
     cep = json['cep'];
@@ -47,7 +50,6 @@ class Results {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['objectId'] = objectId;
     data['cep'] = cep;
     data['logradouro'] = logradouro;
     data['complemento'] = complemento;
@@ -56,6 +58,18 @@ class Results {
     data['uf'] = uf;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
+    return data;
+  }
+
+  Map<String, dynamic> toJsonEndpoint() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['objectId'] = objectId;
+    data['cep'] = cep;
+    data['logradouro'] = logradouro;
+    data['complemento'] = complemento;
+    data['bairro'] = bairro;
+    data['localidade'] = localidade;
+    data['uf'] = uf;
     return data;
   }
 }
