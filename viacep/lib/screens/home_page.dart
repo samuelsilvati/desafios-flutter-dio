@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:viacep/models/viacep_model.dart';
 import 'package:viacep/repositories/viacep_repository.dart';
 import 'package:viacep/screens/cadastrar_cep.dart';
-import 'package:viacep/screens/ceps.dart';
+import 'package:viacep/screens/ceps_cadastrados.dart';
 import 'package:viacep/shared/widgets/flutter_toast.dart';
 
 class MyHomePage extends StatefulWidget {
