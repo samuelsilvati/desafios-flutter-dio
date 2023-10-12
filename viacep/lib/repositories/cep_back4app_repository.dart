@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:viacep/models/cadastro_cep.dart';
 
 class CepBack4AppRepository {
@@ -6,8 +7,12 @@ class CepBack4AppRepository {
   var url = "/cep";
 
   CepBack4AppRepository() {
-    _dio.options.headers["X-Parse-Application-Id"] = "";
-    _dio.options.headers["X-Parse-REST-API-Key"] = "";
+    _dio.options.headers["X-Parse-Application-Id"] =
+        dotenv.get("BACK4APP_PARSE_APPLICATION_ID");
+
+    _dio.options.headers["X-Parse-REST-API-Key"] =
+        dotenv.get("BACK4APP_PARSE_REST_API_KEY");
+
     _dio.options.baseUrl = "https://parseapi.back4app.com/classes";
   }
   Future<CadastroCepModel> get() async {
