@@ -26,13 +26,15 @@ class Results {
   String createdAt = "";
   String updatedAt = "";
   String imagePath = "";
+  String email = "";
 
   Results(this.objectId, this.name, this.phoneNumber, this.createdAt,
-      this.updatedAt, this.imagePath);
+      this.updatedAt, this.imagePath, this.email);
 
-  Results.create(this.name, this.phoneNumber, this.imagePath);
+  Results.create(this.name, this.phoneNumber, this.imagePath, this.email);
 
-  Results.update(this.objectId, this.name, this.phoneNumber, this.imagePath);
+  Results.update(
+      this.objectId, this.name, this.phoneNumber, this.imagePath, this.email);
 
   Results.fromJson(Map<String, dynamic> json) {
     objectId = json['objectId'];
@@ -41,6 +43,7 @@ class Results {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     imagePath = json['ImagePath'];
+    email = json['email'];
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +54,7 @@ class Results {
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     data['ImagePath'] = imagePath;
+    data['email'] = email;
     return data;
   }
 
@@ -60,6 +64,7 @@ class Results {
     data['Name'] = name;
     data['PhoneNumber'] = phoneNumber;
     data['ImagePath'] = imagePath;
+    data['email'] = email;
     return data;
   }
 }
