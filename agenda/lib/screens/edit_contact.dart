@@ -1,15 +1,36 @@
+import 'package:agenda/models/agenda_model.dart';
+import 'package:agenda/repositories/agenda_repository.dart';
+import 'package:agenda/screens/my_home_page.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class EditContactPage extends StatefulWidget {
-  const EditContactPage({super.key});
+  final Results contactDetail;
+  const EditContactPage({super.key, required this.contactDetail});
 
   @override
   State<EditContactPage> createState() => _EditContactPageState();
 }
 
 class _EditContactPageState extends State<EditContactPage> {
+  AgendaBack4AppRepository agendaBack4AppRepository =
+      AgendaBack4AppRepository();
+  String contactId = '';
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    contactId = widget.contactDetail.objectId;
+    nameController.text = widget.contactDetail.name;
+    phoneController.text = widget.contactDetail.phoneNumber;
+    emailController.text = widget.contactDetail.email ?? '';
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,13 +99,14 @@ class _EditContactPageState extends State<EditContactPage> {
           const SizedBox(
             height: 10,
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: TextField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   counterText: "",
                   border: OutlineInputBorder(),
                   labelText: "Nome Completo *"),
+              controller: nameController,
             ),
           ),
           Padding(
@@ -99,16 +121,18 @@ class _EditContactPageState extends State<EditContactPage> {
                   counterText: "",
                   border: OutlineInputBorder(),
                   labelText: "Telefone *"),
+              controller: phoneController,
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: TextField(
               keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   counterText: "",
                   border: OutlineInputBorder(),
                   labelText: "E-mail"),
+              controller: emailController,
             ),
           ),
           Padding(
@@ -122,7 +146,20 @@ class _EditContactPageState extends State<EditContactPage> {
                     backgroundColor: MaterialStateProperty.all(
                       Theme.of(context).colorScheme.inversePrimary,
                     )),
-                onPressed: () {},
+                onPressed: () async {
+                  await agendaBack4AppRepository.edit(Results.update(
+                      contactId,
+                      nameController.text,
+                      phoneController.text,
+                      '',
+                      emailController.text));
+                  if (!context.mounted) return;
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MyHomePage()),
+                      (route) => false);
+                },
                 child: const Text(
                   "Salvar",
                   style: TextStyle(fontSize: 18),

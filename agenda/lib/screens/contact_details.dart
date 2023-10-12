@@ -27,7 +27,9 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => const EditContactPage(),
+                  builder: (BuildContext context) => EditContactPage(
+                    contactDetail: contact,
+                  ),
                 ),
               );
             },
