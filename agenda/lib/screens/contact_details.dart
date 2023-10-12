@@ -2,14 +2,14 @@ import 'package:agenda/screens/edit_contact.dart';
 import 'package:agenda/screens/my_home_page.dart';
 import 'package:flutter/material.dart';
 
-class ContactDetaielsPage extends StatefulWidget {
-  const ContactDetaielsPage({super.key});
+class ContactDetailsPage extends StatefulWidget {
+  const ContactDetailsPage({super.key});
 
   @override
-  State<ContactDetaielsPage> createState() => ContactDetaielsPageState();
+  State<ContactDetailsPage> createState() => ContactDetailsPageState();
 }
 
-class ContactDetaielsPageState extends State<ContactDetaielsPage> {
+class ContactDetailsPageState extends State<ContactDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
