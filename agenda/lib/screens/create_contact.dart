@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:agenda/models/agenda_model.dart';
 import 'package:agenda/repositories/agenda_repository.dart';
 import 'package:agenda/screens/my_home_page.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CreateContactPage extends StatefulWidget {
   const CreateContactPage({super.key});
@@ -18,9 +23,38 @@ class _CreateContactPageState extends State<CreateContactPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  String imagePath = '';
 
   @override
   Widget build(BuildContext context) {
+    final ImagePicker picker = ImagePicker();
+    cropImage(XFile imageFile) async {
+      CroppedFile? croppedFile = await ImageCropper().cropImage(
+        sourcePath: imageFile.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ],
+        uiSettings: [
+          AndroidUiSettings(
+              toolbarTitle: 'Cropper',
+              toolbarColor: Theme.of(context).colorScheme.inversePrimary,
+              toolbarWidgetColor: Colors.white,
+              initAspectRatio: CropAspectRatioPreset.original,
+              lockAspectRatio: false),
+          IOSUiSettings(
+            title: 'Cropper',
+          ),
+        ],
+      );
+
+      imagePath = croppedFile!.path;
+      setState(() {});
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -41,6 +75,13 @@ class _CreateContactPageState extends State<CreateContactPage> {
                         InkWell(
                           onTap: () async {
                             Navigator.pop(context);
+
+                            final XFile? photo = await picker.pickImage(
+                                source: ImageSource.camera);
+                            if (photo != null) {
+                              await ImageGallerySaver.saveFile(photo.path);
+                              cropImage(photo);
+                            }
                           },
                           child: const ListTile(
                             title: Text("Câmera"),
@@ -50,6 +91,12 @@ class _CreateContactPageState extends State<CreateContactPage> {
                         InkWell(
                           onTap: () async {
                             Navigator.pop(context);
+
+                            final XFile? image = await picker.pickImage(
+                                source: ImageSource.gallery);
+                            if (image != null) {
+                              cropImage(image);
+                            }
                           },
                           child: const ListTile(
                             title: Text("Galeria"),
@@ -61,21 +108,27 @@ class _CreateContactPageState extends State<CreateContactPage> {
                   });
             },
             child: Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
-              child: Center(
-                child: Icon(
-                  Icons.add_photo_alternate,
-                  size: 40,
-                  color:
-                      Theme.of(context).colorScheme.background, // Cor do ícone
-                ),
-              ),
-            ),
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                    image: imagePath.isNotEmpty
+                        ? DecorationImage(
+                            image: FileImage(File(imagePath)),
+                            fit: BoxFit.contain)
+                        : null),
+                child: imagePath.isEmpty
+                    ? Center(
+                        child: Icon(
+                          Icons.add_photo_alternate,
+                          size: 40,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .background, // Cor do ícone
+                        ),
+                      )
+                    : null),
           ),
           const Padding(
             padding: EdgeInsets.only(top: 8),
@@ -138,7 +191,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
                   await agendaBack4AppRepository.create(Results.create(
                       nameController.text,
                       phoneController.text,
-                      '',
+                      imagePath,
                       emailController.text));
                   if (!context.mounted) return;
                   Navigator.pushAndRemoveUntil(
