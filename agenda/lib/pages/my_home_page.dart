@@ -48,7 +48,14 @@ class _MyHomePageState extends State<MyHomePage> {
         )),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => const CreateContactPage(),
+            ),
+          );
+        },
         tooltip: 'Adicionar Contato',
         child: const Icon(Icons.add),
       ),
