@@ -1,4 +1,5 @@
 import 'package:agenda/pages/edit_contact.dart';
+import 'package:agenda/pages/my_home_page.dart';
 import 'package:flutter/material.dart';
 
 class ContactDetaielsPage extends StatefulWidget {
@@ -26,6 +27,47 @@ class ContactDetaielsPageState extends State<ContactDetaielsPage> {
             },
             icon: const Icon(Icons.edit),
           ),
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext bc) {
+                    return AlertDialog(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      title: const Icon(
+                        Icons.warning,
+                        size: 32,
+                        color: Colors.redAccent,
+                      ),
+                      content: const Wrap(
+                        children: [
+                          Center(
+                              child:
+                                  Text("Deseja realmente apagar o contato?")),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Cancelar')),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const MyHomePage()),
+                                  (route) => false);
+                            },
+                            child: const Text('Apagar'))
+                      ],
+                    );
+                  });
+            },
+          ),
         ],
       ),
       body: Center(
@@ -33,21 +75,20 @@ class ContactDetaielsPageState extends State<ContactDetaielsPage> {
         padding: const EdgeInsets.all(20),
         child: ListView(children: [
           Container(
-            width: 120, // Defina o tamanho desejado para o botão
-            height: 120, // Defina o tamanho desejado para o botão
+            width: 120,
+            height: 120,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Theme.of(context)
-                  .colorScheme
-                  .inversePrimary, // Cor de fundo do botão
+              color: Theme.of(context).colorScheme.inversePrimary,
             ),
             child: Center(
-              child: Icon(
-                Icons.add_photo_alternate, // Ícone para adicionar uma imagem
-                size: 40, // Tamanho do ícone
-                color: Theme.of(context).colorScheme.background, // Cor do ícone
+                child: Text(
+              "A",
+              style: TextStyle(
+                fontSize: 62,
+                color: Theme.of(context).colorScheme.background,
               ),
-            ),
+            )),
           ),
           const Padding(
             padding: EdgeInsets.only(top: 10),

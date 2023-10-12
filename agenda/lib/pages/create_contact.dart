@@ -52,18 +52,16 @@ class _CreateContactPageState extends State<CreateContactPage> {
                   });
             },
             child: Container(
-              width: 100, // Defina o tamanho desejado para o botão
-              height: 100, // Defina o tamanho desejado para o botão
+              width: 100,
+              height: 100,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Theme.of(context)
-                    .colorScheme
-                    .inversePrimary, // Cor de fundo do botão
+                color: Theme.of(context).colorScheme.inversePrimary,
               ),
               child: Center(
                 child: Icon(
-                  Icons.add_photo_alternate, // Ícone para adicionar uma imagem
-                  size: 40, // Tamanho do ícone
+                  Icons.add_photo_alternate,
+                  size: 40,
                   color:
                       Theme.of(context).colorScheme.background, // Cor do ícone
                 ),
