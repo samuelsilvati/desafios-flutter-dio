@@ -1,3 +1,6 @@
+import 'package:agenda/models/agenda_model.dart';
+import 'package:agenda/repositories/agenda_repository.dart';
+import 'package:agenda/screens/my_home_page.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +13,12 @@ class CreateContactPage extends StatefulWidget {
 }
 
 class _CreateContactPageState extends State<CreateContactPage> {
+  AgendaBack4AppRepository agendaBack4AppRepository =
+      AgendaBack4AppRepository();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,10 +84,12 @@ class _CreateContactPageState extends State<CreateContactPage> {
           const SizedBox(
             height: 10,
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: TextField(
-              decoration: InputDecoration(
+              maxLength: 50,
+              controller: nameController,
+              decoration: const InputDecoration(
                   counterText: "",
                   border: OutlineInputBorder(),
                   labelText: "Nome Completo *"),
@@ -87,22 +98,26 @@ class _CreateContactPageState extends State<CreateContactPage> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: TextField(
+              maxLength: 16,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
                 TelefoneInputFormatter()
               ],
               keyboardType: TextInputType.number,
+              controller: phoneController,
               decoration: const InputDecoration(
                   counterText: "",
                   border: OutlineInputBorder(),
                   labelText: "Telefone *"),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
             child: TextField(
+              maxLength: 50,
               keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
+              controller: emailController,
+              decoration: const InputDecoration(
                   counterText: "",
                   border: OutlineInputBorder(),
                   labelText: "E-mail"),
@@ -119,7 +134,19 @@ class _CreateContactPageState extends State<CreateContactPage> {
                     backgroundColor: MaterialStateProperty.all(
                       Theme.of(context).colorScheme.inversePrimary,
                     )),
-                onPressed: () {},
+                onPressed: () async {
+                  await agendaBack4AppRepository.create(Results.create(
+                      nameController.text,
+                      phoneController.text,
+                      '',
+                      emailController.text));
+                  if (!context.mounted) return;
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MyHomePage()),
+                      (route) => false);
+                },
                 child: const Text(
                   "Salvar",
                   style: TextStyle(fontSize: 18),
