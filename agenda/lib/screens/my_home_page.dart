@@ -86,7 +86,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           context,
                           MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                const ContactDetailsPage(),
+                                ContactDetailsPage(
+                              contactDetail: contact,
+                            ),
                           ),
                         );
                       },
