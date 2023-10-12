@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:agenda/models/agenda_model.dart';
 import 'package:agenda/repositories/agenda_repository.dart';
 import 'package:agenda/screens/contact_details.dart';
@@ -63,8 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                     .inversePrimary,
                                 image: contact.imagePath!.isNotEmpty
                                     ? DecorationImage(
-                                        image: NetworkImage(
-                                            contact.imagePath ?? ''),
+                                        image: FileImage(
+                                            File(contact.imagePath ?? '')),
                                         fit: BoxFit.cover)
                                     : null),
                             child: contact.imagePath!.isEmpty

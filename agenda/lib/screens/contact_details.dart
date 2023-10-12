@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:agenda/models/agenda_model.dart';
 import 'package:agenda/repositories/agenda_repository.dart';
 import 'package:agenda/screens/edit_contact.dart';
@@ -93,7 +95,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                 color: Theme.of(context).colorScheme.inversePrimary,
                 image: contact.imagePath!.isNotEmpty
                     ? DecorationImage(
-                        image: NetworkImage(contact.imagePath ?? ''),
+                        image: FileImage(File(contact.imagePath ?? '')),
                         fit: BoxFit.contain)
                     : null),
             child: contact.imagePath!.isEmpty
