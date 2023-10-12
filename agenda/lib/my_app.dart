@@ -1,4 +1,4 @@
-import 'package:agenda/pages/my_home_page.dart';
+import 'package:agenda/screens/my_home_page.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {

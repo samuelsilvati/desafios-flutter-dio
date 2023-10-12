@@ -1,5 +1,5 @@
-import 'package:agenda/pages/contact_details.dart';
-import 'package:agenda/pages/create_contact.dart';
+import 'package:agenda/screens/contact_details.dart';
+import 'package:agenda/screens/create_contact.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
