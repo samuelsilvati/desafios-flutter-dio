@@ -25,8 +25,8 @@ class Results {
   String phoneNumber = "";
   String createdAt = "";
   String updatedAt = "";
-  String imagePath = "";
-  String email = "";
+  String? imagePath = "";
+  String? email = "";
 
   Results(this.objectId, this.name, this.phoneNumber, this.createdAt,
       this.updatedAt, this.imagePath, this.email);
