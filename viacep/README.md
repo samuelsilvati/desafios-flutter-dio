@@ -14,15 +14,12 @@ Para rodar o projeto é necessário ter conta na Back4App e criar um App com as 
     "uf": ""
 }
 ```
-No arquivo lib/repositories/cep_back4app_repository,dart substitua as aspas pelas suas chaves do Back4App:
-```dart
-CepBack4AppRepository() {
-    _dio.options.headers["X-Parse-Application-Id"] = "";
-    _dio.options.headers["X-Parse-REST-API-Key"] = "";
-    _dio.options.baseUrl = "https://parseapi.back4app.com/classes";
-  }
+Renomeie o arquivo ".env.example" na raiz do projeto para ".env" e substitua as aspas pelas suas chaves do Back4App:
+```env
+BACK4APP_PARSE_APPLICATION_ID=""
+BACK4APP_PARSE_REST_API_KEY=""
 ```
-Coloque o caminho correspondente do seu app na variável url:
+No arquivo "lib/repositories/cep_back4app_repository.dart " coloque o caminho correspondente do seu app na variável url:
 
 ```dart
 var url = "/cep";
