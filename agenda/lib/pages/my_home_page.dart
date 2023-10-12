@@ -1,3 +1,5 @@
+import 'package:agenda/pages/contact_details.dart';
+import 'package:agenda/pages/create_contact.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -10,10 +12,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void _incrementCounter() {
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,23 +24,45 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Center(
             child: ListView(
           children: [
-            ListTile(
-              leading: ClipOval(
-                  child: Image.network(
-                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-                height: 50,
-                width: 50,
-              )),
-              title: const Text("Ana da Silva"),
+            InkWell(
+              child: ListTile(
+                leading: ClipOval(
+                    child: Image.network(
+                  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+                  height: 50,
+                  width: 50,
+                )),
+                title: const Text("Ana da Silva"),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        const ContactDetaielsPage(),
+                  ),
+                );
+              },
             ),
-            ListTile(
-              leading: ClipOval(
-                  child: Image.network(
-                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-                height: 50,
-                width: 50,
-              )),
-              title: const Text("Bruno Oliveira"),
+            InkWell(
+              child: ListTile(
+                leading: ClipOval(
+                    child: Image.network(
+                  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+                  height: 50,
+                  width: 50,
+                )),
+                title: const Text("Bruno Oliveira"),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        const ContactDetaielsPage(),
+                  ),
+                );
+              },
             ),
           ],
         )),
