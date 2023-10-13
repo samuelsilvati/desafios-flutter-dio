@@ -1,16 +1,26 @@
-# agenda
+# Agenda
 
-A new Flutter project.
+App para consulta e criação de Ceps
 
-## Getting Started
+# Configurações
+Para rodar o projeto é necessário ter conta na Back4App e criar um App com as seguintes colunas:
+```json
+{
+  "Name": "",
+  "PhoneNumber": "",
+  "ImagePath": "",
+  "email": ""
+}
+```
+Obs: os campos "Name" e "PhoneNumber" são obrigatórios.
 
-This project is a starting point for a Flutter application.
+Renomeie o arquivo ".env.example" na raiz do projeto para ".env" e substitua as aspas pelas suas chaves do Back4App:
+```env
+BACK4APP_PARSE_APPLICATION_ID=""
+BACK4APP_PARSE_REST_API_KEY=""
+```
+No arquivo "lib/repositories/agenda_repository.dart " coloque o caminho correspondente do seu app na variável url:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```dart
+var url = "/Agenda";
+```
