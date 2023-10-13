@@ -35,6 +35,18 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Image? loadImageFromPath(String imagePath) {
+    try {
+      final file = File(imagePath);
+      if (file.existsSync()) {
+        return Image.file(file);
+      }
+    } catch (e) {
+      return null;
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +63,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 itemCount: _contacts.results.length,
                 itemBuilder: (BuildContext bc, index) {
                   var contact = _contacts.results[index];
+
+                  Image? image;
+                  if (contact.imagePath != '') {
+                    image = loadImageFromPath(contact.imagePath!);
+                  }
+
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 6),
                     child: InkWell(
@@ -63,13 +81,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                 color: Theme.of(context)
                                     .colorScheme
                                     .inversePrimary,
-                                image: contact.imagePath!.isNotEmpty
+                                image: image != null
                                     ? DecorationImage(
-                                        image: FileImage(
-                                            File(contact.imagePath ?? '')),
+                                        image:
+                                            FileImage(File(contact.imagePath!)),
                                         fit: BoxFit.cover)
                                     : null),
-                            child: contact.imagePath!.isEmpty
+                            child: image == null
                                 ? Center(
                                     child: Text(
                                     contact.name[0],
@@ -90,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             builder: (BuildContext context) =>
                                 ContactDetailsPage(
                               contactDetail: contact,
+                              img: image,
                             ),
                           ),
                         );

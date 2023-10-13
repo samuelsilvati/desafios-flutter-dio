@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 
 class ContactDetailsPage extends StatefulWidget {
   final Results contactDetail;
-  const ContactDetailsPage({super.key, required this.contactDetail});
+  final Image? img;
+  const ContactDetailsPage(
+      {super.key, required this.contactDetail, required this.img});
 
   @override
   State<ContactDetailsPage> createState() => _ContactDetailsPageState();
@@ -20,6 +22,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
   @override
   Widget build(BuildContext context) {
     var contact = widget.contactDetail;
+    Image? image = widget.img;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -93,12 +96,12 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Theme.of(context).colorScheme.inversePrimary,
-                image: contact.imagePath!.isNotEmpty
+                image: image != null
                     ? DecorationImage(
                         image: FileImage(File(contact.imagePath ?? '')),
                         fit: BoxFit.contain)
                     : null),
-            child: contact.imagePath!.isEmpty
+            child: image == null
                 ? Center(
                     child: Text(
                     contact.name[0],
