@@ -39,6 +39,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                 MaterialPageRoute(
                   builder: (BuildContext context) => EditContactPage(
                     contactDetail: contact,
+                    img: image,
                   ),
                 ),
               );
