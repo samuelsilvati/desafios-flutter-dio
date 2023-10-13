@@ -4,6 +4,7 @@ import 'package:agenda/models/agenda_model.dart';
 import 'package:agenda/repositories/agenda_repository.dart';
 import 'package:agenda/screens/edit_contact.dart';
 import 'package:agenda/screens/my_home_page.dart';
+import 'package:agenda/widgets/flutter_toast.dart';
 import 'package:flutter/material.dart';
 
 class ContactDetailsPage extends StatefulWidget {
@@ -19,6 +20,10 @@ class ContactDetailsPage extends StatefulWidget {
 class _ContactDetailsPageState extends State<ContactDetailsPage> {
   AgendaBack4AppRepository agendaBack4AppRepository =
       AgendaBack4AppRepository();
+
+  bool loading = false;
+  var toast = FlutterToast();
+
   @override
   Widget build(BuildContext context) {
     var contact = widget.contactDetail;
@@ -69,8 +74,18 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                             child: const Text('Cancelar')),
                         TextButton(
                             onPressed: () async {
-                              await agendaBack4AppRepository
-                                  .delete(contact.objectId);
+                              Navigator.pop(context);
+                              setState(() {
+                                loading = true;
+                              });
+                              try {
+                                await agendaBack4AppRepository
+                                    .delete(contact.objectId);
+                              } catch (e) {
+                                toast.error(
+                                    "Não foi possível apagar o contato.");
+                              }
+
                               if (!context.mounted) return;
                               Navigator.pushAndRemoveUntil(
                                   context,
@@ -86,85 +101,87 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
           ),
         ],
       ),
-      body: Center(
-          child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-        child: ListView(children: [
-          Container(
-            width: 120,
-            height: 120,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Theme.of(context).colorScheme.inversePrimary,
-                image: image != null
-                    ? DecorationImage(
-                        image: FileImage(File(contact.imagePath ?? '')),
-                        fit: BoxFit.contain)
-                    : null),
-            child: image == null
-                ? Center(
-                    child: Text(
-                    contact.name[0],
-                    style: TextStyle(
-                      fontSize: 62,
-                      color: Theme.of(context).colorScheme.background,
-                    ),
-                  ))
-                : null,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Center(
-                child: Text(
-              contact.name,
-              style: const TextStyle(fontSize: 20),
-            )),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
-              child: Text(
-                'Informaçoes de contato',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              )),
-          Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.phone),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      SelectableText(contact.phoneNumber),
-                    ],
-                  ),
+      body: !loading
+          ? Center(
+              child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+              child: ListView(children: [
+                Container(
+                  width: 120,
+                  height: 120,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                      image: image != null
+                          ? DecorationImage(
+                              image: FileImage(File(contact.imagePath ?? '')),
+                              fit: BoxFit.contain)
+                          : null),
+                  child: image == null
+                      ? Center(
+                          child: Text(
+                          contact.name[0],
+                          style: TextStyle(
+                            fontSize: 62,
+                            color: Theme.of(context).colorScheme.background,
+                          ),
+                        ))
+                      : null,
                 ),
-              )),
-          Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: contact.email!.isNotEmpty
-                  ? Card(
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Center(
+                      child: Text(
+                    contact.name,
+                    style: const TextStyle(fontSize: 20),
+                  )),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      'Informaçoes de contato',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Card(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            const Icon(Icons.mail),
+                            const Icon(Icons.phone),
                             const SizedBox(
                               width: 10,
                             ),
-                            SelectableText(contact.email ?? ''),
+                            SelectableText(contact.phoneNumber),
                           ],
                         ),
                       ),
-                    )
-                  : null),
-        ]),
-      )),
+                    )),
+                Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: contact.email!.isNotEmpty
+                        ? Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.mail),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  SelectableText(contact.email ?? ''),
+                                ],
+                              ),
+                            ),
+                          )
+                        : null),
+              ]),
+            ))
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 }
